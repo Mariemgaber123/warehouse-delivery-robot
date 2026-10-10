@@ -3,7 +3,7 @@ import pandas as pd
 from utils import find_start_goal, display_path
 from algorithms.A_star import a_star
 from algorithms.ucs import uniform_cost_search
-
+from algorithms.bfs import bfs
 
 # =========================
 # Maps
@@ -67,6 +67,35 @@ def main():
 
         print(f"\nStart: {start}")
         print(f"Goal: {goal}")
+
+
+        # Run BFS
+        bfs_result = bfs(grid, start, goal)
+
+        print("\nBFS Results:")
+        print(f"Path: {bfs_result['path']}")
+        print(f"Path length: {bfs_result['path_length']}")
+        print(f"Cost: {bfs_result['cost']}")
+        print(f"Nodes expanded: {bfs_result['nodes_expanded']}")
+        print(f"Max frontier: {bfs_result['max_frontier']}")
+        print(f"Runtime: {bfs_result['runtime']:.6f} seconds")
+
+        if bfs_result["path"]:
+            print("\nBFS Path on map:")
+            display_path(grid, bfs_result["path"])
+        else:
+            print("No path found")
+
+        results.append({
+            "Map": map_name,
+            "Algorithm": "BFS",
+            "Path Length": bfs_result["path_length"],
+            "Cost": bfs_result["cost"],
+            "Nodes Expanded": bfs_result["nodes_expanded"],
+            "Max Frontier": bfs_result["max_frontier"],
+            "Runtime": bfs_result["runtime"]
+        })
+
 
         # Run UCS
         ucs_result = uniform_cost_search(grid, start, goal)
